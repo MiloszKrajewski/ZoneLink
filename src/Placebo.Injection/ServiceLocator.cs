@@ -23,7 +23,14 @@ namespace Placebo.Injection
 
 	public static class ServiceLocator
 	{
-		public static IServiceLocator Root = null;
+		private static IServiceLocator _defaultServiceLocator;
+
+		public static IServiceLocator Default { get { return _defaultServiceLocator; } }
+
+		public static void Configure(IServiceLocator serviveLocator)
+		{
+			_defaultServiceLocator = serviveLocator;
+		}
 
 		/// <summary>Resolves the th object for given type.</summary>
 		/// <typeparam name="T">Type of object.</typeparam>
@@ -36,6 +43,12 @@ namespace Placebo.Injection
 		{
 			return (T)resolver.Resolve(typeof(T), null, require);
 		}
+
+		public static T Resolve<T>(bool require = false)
+		{
+			return _defaultServiceLocator.Resolve<T>(require);
+		}
+
 
 		/// <summary>Resolves the object for given name and type.</summary>
 		/// <typeparam name="T">Type of object.</typeparam>
@@ -51,6 +64,13 @@ namespace Placebo.Injection
 			return (T)resolver.Resolve(typeof(T), name, require);
 		}
 
+		public static T Resolve<T>(
+			string name,
+			bool require = false)
+		{
+			return _defaultServiceLocator.Resolve<T>(name, require);
+		}
+
 		/// <summary>Resolves all object for given type.</summary>
 		/// <typeparam name="T">Type of object.</typeparam>
 		/// <param name="resolver">The resolver.</param>
@@ -59,5 +79,41 @@ namespace Placebo.Injection
 		{
 			return resolver.ResolveAll(typeof(T)).OfType<T>();
 		}
+
+		public static IEnumerable<T> ResolveAll<T>()
+		{
+			return _defaultServiceLocator.ResolveAll<T>();
+		}
 	}
+
+	public class NullServiceLocator: IServiceLocator
+	{
+		#region IServiceLocator Members
+
+		public object Resolve(Type serviceType, string name, bool require)
+		{
+			if (require)
+				throw new ArgumentException(string.Format(
+					"Service '{0}' could not be resolved",
+					GetFriendlyName(serviceType)));
+			return serviceType.IsValueType ? Activator.CreateInstance(serviceType) : null;
+		}
+
+		public IEnumerable ResolveAll(Type serviceType)
+		{
+			return Array.CreateInstance(serviceType, 0);
+		}
+
+		#endregion
+
+		#region utilities
+
+		private static string GetFriendlyName(Type serviceType)
+		{
+			return serviceType.Name;
+		}
+
+		#endregion
+	}
+
 }

@@ -5,37 +5,47 @@ using System.Text;
 
 namespace Placebo.Logging
 {
-	public static class LogExtensions
+	public static class LogFactory
 	{
-		public static ILogFactory NotNull(this ILogFactory logFactory)
+		#region class NullLogFactory
+
+		internal class NullLogFactory: ILogFactory
 		{
-			return logFactory ?? NullLogFactory.Instance;
+			public static readonly NullLogFactory Instance = new NullLogFactory();
+
+			#region ILogFactory Members
+
+			/// <summary>Gets the <see cref="ILogChannel" /> for the specified channel.</summary>
+			/// <param name="channelName">Name of the channel.</param>
+			/// <returns>Log channel.</returns>
+			public ILogChannel Channel(string channelName)
+			{
+				return NullLogChannel.Instance;
+			}
+
+			#endregion
 		}
 
-		public static ILogChannel NotNull(this ILogChannel logChannel)
+		#endregion
+
+		private static ILogFactory _defaultLogFactory = NullLogFactory.Instance;
+
+		public static readonly ILogFactory Null = NullLogFactory.Instance;
+		public static ILogFactory Default { get { return _defaultLogFactory; } }
+
+		public static ILogChannel Channel(this ILogFactory logFactory, Type hostingType)
 		{
-			return logChannel ?? NullLogChannel.Instance;
+			return logFactory.Channel(GetFriendlyName(hostingType));
 		}
 
-		public static ILogChannel ChannelFor(this ILogFactory logFactory, string channelName)
+		public static ILogChannel Channel(this ILogFactory logFactory, object hostingObject)
 		{
-			if (string.IsNullOrWhiteSpace(channelName)) channelName = "root";
-			return logFactory.NotNull().GetChannel(channelName).NotNull();
-		}
-
-		public static ILogChannel ChannelFor(this ILogFactory logFactory, Type hostingType)
-		{
-			return logFactory.ChannelFor(GetFriendlyName(hostingType));
-		}
-
-		public static ILogChannel ChannelFor(this ILogFactory logFactory, object hostingObject)
-		{
-			return logFactory.ChannelFor(GetFriendlyName(hostingObject));
+			return logFactory.Channel(GetFriendlyName(hostingObject));
 		}
 
 		public static void Debug(this ILogChannel logChannel, Func<string> messageFactory)
 		{
-			if (logChannel == null) return;
+			if (logChannel == null || !logChannel.IsEnabled(Severity.Debug)) return;
 			logChannel.LogMessage(Severity.Debug, null, messageFactory);
 		}
 
@@ -51,8 +61,18 @@ namespace Placebo.Logging
 
 		public static void Trace(this ILogChannel logChannel, Func<string> messageFactory)
 		{
-			if (logChannel == null) return;
+			if (logChannel == null || !logChannel.IsEnabled(Severity.Trace)) return;
 			logChannel.LogMessage(Severity.Trace, null, messageFactory);
+		}
+
+		public static void Trace(this ILogChannel logChannel, string message)
+		{
+			logChannel.Trace(() => SafeFormat(message));
+		}
+
+		public static void Trace(this ILogChannel logChannel, string message, params object[] arguments)
+		{
+			logChannel.Trace(() => SafeFormat(message, arguments));
 		}
 
 		public static void Info() { }

@@ -15,7 +15,7 @@
 		/// <summary>Gets the <see cref="ILogChannel" /> for the specified channel.</summary>
 		/// <param name="channelName">Name of the channel.</param>
 		/// <returns>Log channel.</returns>
-		public ILogChannel GetChannel(string channelName)
+		public ILogChannel Channel(string channelName)
 		{
 			return NullLogChannel.Instance;
 		}
