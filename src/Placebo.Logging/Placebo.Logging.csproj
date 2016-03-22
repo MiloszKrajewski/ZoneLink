@@ -37,6 +37,9 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Placebo.Injection\Internal.cs">
+      <Link>Internal.cs</Link>
+    </Compile>
     <Compile Include="ILogChannel.cs" />
     <Compile Include="ILogFactory.cs" />
     <Compile Include="LogFactory.cs" />
