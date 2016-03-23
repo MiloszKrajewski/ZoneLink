@@ -1,0 +1,61 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Placebo.Logging
+{
+    public static partial class LogFactory
+    {
+<#    foreach (var level in new[] { "Debug", "Trace", "Info", "Warn", "Error", "Fatal" }) { #>
+        public static void <#= level #>(this ILogChannel logChannel, Func<string> messageFactory)
+        {
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, null, SafeFormat(messageFactory));
+        }
+
+        public static void <#= level #>(this ILogChannel logChannel, string message)
+        {
+            logChannel.<#= level #>(SafeFormat(message));
+        }
+
+        public static void <#= level #>(this ILogChannel logChannel, string message, params object[] arguments)
+        {
+            logChannel.<#= level #>(SafeFormat(message, arguments));
+        }
+
+<#    } #>
+
+<#    foreach (var level in new[] { "Warn", "Error", "Fatal" }) { #>
+        public static void <#= level #>(this ILogChannel logChannel, Exception exception, Func<string> messageFactory)
+        {
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, exception, SafeFormat(messageFactory));
+        }
+
+        public static void <#= level #>(this ILogChannel logChannel, Exception exception)
+        {
+            logChannel.<#= level #>(exception);
+        }
+
+        public static void <#= level #>(this ILogChannel logChannel, Exception exception, string message)
+        {
+            logChannel.<#= level #>(SafeFormat(message));
+        }
+
+        public static void <#= level #>(this ILogChannel logChannel, Exception exception, string message, params object[] arguments)
+        {
+            logChannel.<#= level #>(SafeFormat(message, arguments));
+        }
+
+<#    } #>
+
+    }
+}

@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Placebo.Logging", "Placebo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Placebo.Functional", "Placebo.Functional\Placebo.Functional.csproj", "{EB46315F-4EB1-475C-B870-20D5B8346775}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{6A5B3A02-062E-4F7B-85D1-0D7302FD5DE2}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\Internal.cs = Shared\Internal.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

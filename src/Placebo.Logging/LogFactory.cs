@@ -24,45 +24,15 @@ namespace Placebo.Logging
 
 		public static ILogChannel Channel(this ILogFactory logFactory, object hostingObject)
 		{
-			return logFactory.Channel(hostingObject.GetFriendlyObjectName());
+			return logFactory.Channel(hostingObject.GetObjectFriendlyName());
 		}
 
-		public static void Debug(this ILogChannel logChannel, Func<string> messageFactory)
+		public static void LogException(this ILogChannel logChannel, Severity serverity, Exception exception)
 		{
-			if (logChannel == null || !logChannel.IsEnabled(Severity.Debug)) return;
-			logChannel.LogMessage(Severity.Debug, null, SafeFormat(messageFactory));
+			if (exception == null) return;
+			if (logChannel == null || !logChannel.IsEnabled(serverity)) return;
+			logChannel.LogMessage(serverity, SafeFormat(() => Explain(exception));
 		}
-
-		public static void Debug(this ILogChannel logChannel, string message)
-		{
-			logChannel.Debug(SafeFormat(message));
-		}
-
-		public static void Debug(this ILogChannel logChannel, string message, params object[] arguments)
-		{
-			logChannel.Debug(SafeFormat(message, arguments));
-		}
-
-		public static void Trace(this ILogChannel logChannel, Func<string> messageFactory)
-		{
-			if (logChannel == null || !logChannel.IsEnabled(Severity.Trace)) return;
-			logChannel.LogMessage(Severity.Trace, null, SafeFormat(messageFactory));
-		}
-
-		public static void Trace(this ILogChannel logChannel, string message)
-		{
-			logChannel.Trace(SafeFormat(message));
-		}
-
-		public static void Trace(this ILogChannel logChannel, string message, params object[] arguments)
-		{
-			logChannel.Trace(SafeFormat(message, arguments));
-		}
-
-		public static void Info() { }
-		public static void Warn() { }
-		public static void Error() { }
-		public static void Fatal() { }
 
 		private static Func<string> SafeFormat(string message)
 		{

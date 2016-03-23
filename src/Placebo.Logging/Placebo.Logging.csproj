@@ -35,18 +35,30 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="LogFactory.Log.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LogFactory.Log.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Placebo.Injection\Internal.cs">
+    <Compile Include="..\Shared\Internal.cs">
       <Link>Internal.cs</Link>
     </Compile>
     <Compile Include="ILogChannel.cs" />
     <Compile Include="ILogFactory.cs" />
     <Compile Include="LogFactory.cs" />
+    <Compile Include="LogFactory.Log.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogFactory.Log.tt</DependentUpon>
+    </Compile>
     <Compile Include="Severity.cs" />
     <Compile Include="NullLogChannel.cs" />
     <Compile Include="NullLogFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

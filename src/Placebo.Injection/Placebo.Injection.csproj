@@ -37,7 +37,9 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal.cs" />
+    <Compile Include="..\Shared\Internal.cs">
+      <Link>Internal.cs</Link>
+    </Compile>
     <Compile Include="IServiceLocator.cs" />
     <Compile Include="NullServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
