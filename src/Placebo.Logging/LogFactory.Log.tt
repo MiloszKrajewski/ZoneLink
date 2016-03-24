@@ -21,7 +21,7 @@ namespace Placebo.Logging
         public static void <#= level #>(this ILogChannel logChannel, Func<string> messageFactory)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
-            logChannel.LogMessage(Severity.<#= level #>, messageFactory.SafeFormat());
+            logChannel.LogMessage(Severity.<#= level #>, messageFactory.DeferToString());
         }
 
         /// <summary>Logs a exception as <#= level #> message.</summary>
@@ -39,7 +39,7 @@ namespace Placebo.Logging
         public static void <#= level #>(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
-            logChannel.LogMessage(Severity.<#= level #>, message.SafeFormat());
+            logChannel.LogMessage(Severity.<#= level #>, message.DeferToString());
         }
 
         /// <summary>Debugs the specified message.</summary>
@@ -49,7 +49,7 @@ namespace Placebo.Logging
         public static void <#= level #>(this ILogChannel logChannel, string messageFormat, params object[] arguments)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
-            logChannel.LogMessage(Severity.<#= level #>, messageFormat.SafeFormat(arguments));
+            logChannel.LogMessage(Severity.<#= level #>, messageFormat.DeferToString(arguments));
         }
 
 <#    } #>
