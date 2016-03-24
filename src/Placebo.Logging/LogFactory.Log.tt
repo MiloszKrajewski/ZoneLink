@@ -4,7 +4,6 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,48 +13,45 @@ namespace Placebo.Logging
 {
     public static partial class LogFactory
     {
+
 <#    foreach (var level in new[] { "Debug", "Trace", "Info", "Warn", "Error", "Fatal" }) { #>
+        /// <summary>Logs a <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="messageFactory">The message factory.</param>
         public static void <#= level #>(this ILogChannel logChannel, Func<string> messageFactory)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
-            logChannel.LogMessage(Severity.<#= level #>, null, SafeFormat(messageFactory));
+            logChannel.LogMessage(Severity.<#= level #>, messageFactory.SafeFormat());
         }
 
-        public static void <#= level #>(this ILogChannel logChannel, string message)
-        {
-            logChannel.<#= level #>(SafeFormat(message));
-        }
-
-        public static void <#= level #>(this ILogChannel logChannel, string message, params object[] arguments)
-        {
-            logChannel.<#= level #>(SafeFormat(message, arguments));
-        }
-
-<#    } #>
-
-<#    foreach (var level in new[] { "Warn", "Error", "Fatal" }) { #>
-        public static void <#= level #>(this ILogChannel logChannel, Exception exception, Func<string> messageFactory)
-        {
-            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
-            logChannel.LogMessage(Severity.<#= level #>, exception, SafeFormat(messageFactory));
-        }
-
+        /// <summary>Logs a exception as <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="exception">The exception.</param>
         public static void <#= level #>(this ILogChannel logChannel, Exception exception)
         {
-            logChannel.<#= level #>(exception);
+            if (logChannel == null || exception == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, exception);
         }
 
-        public static void <#= level #>(this ILogChannel logChannel, Exception exception, string message)
+        /// <summary>Logs a <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="messageFactory">The message.</param>
+        public static void <#= level #>(this ILogChannel logChannel, string message)
         {
-            logChannel.<#= level #>(SafeFormat(message));
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, message.SafeFormat());
         }
 
-        public static void <#= level #>(this ILogChannel logChannel, Exception exception, string message, params object[] arguments)
+        /// <summary>Debugs the specified message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="messageFormat">The message format.</param>
+        /// <param name="arguments">The arguments.</param>
+        public static void <#= level #>(this ILogChannel logChannel, string messageFormat, params object[] arguments)
         {
-            logChannel.<#= level #>(SafeFormat(message, arguments));
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, messageFormat.SafeFormat(arguments));
         }
 
 <#    } #>
-
     }
 }

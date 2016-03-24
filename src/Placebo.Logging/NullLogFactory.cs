@@ -6,7 +6,17 @@
 	{
 		#region static fields
 
-		internal static readonly NullLogFactory Instance = new NullLogFactory();
+		/// <summary>The singleton.</summary>
+		public static readonly NullLogFactory Instance = new NullLogFactory();
+
+		#endregion
+
+		#region constructor
+
+		/// <summary>
+		/// Prevents a default instance of the <see cref="NullLogFactory"/> class from being created.
+		/// </summary>
+		private NullLogFactory() { }
 
 		#endregion
 

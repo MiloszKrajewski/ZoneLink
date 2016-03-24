@@ -3,26 +3,25 @@
 namespace Placebo.Logging
 {
 	/// <summary>Severity of log message.</summary>
-	[Flags]
 	public enum Severity
 	{
 		/// <summary>None.</summary>
 		None = 0,
 
 		/// <summary>Debug.</summary>
-		Debug = 0x01,
+		Debug = 1,
 		/// <summary>Debug.</summary>
-		Trace = 0x02,
+		Trace = 2,
 		/// <summary>Information.</summary>
-		Info = 0x04,
+		Info = 3,
 		/// <summary>Warning.</summary>
-		Warn = 0x08,
+		Warn = 4,
 		/// <summary>Error.</summary>
-		Error = 0x10,
+		Error = 5,
 		/// <summary>Fatal.</summary>
-		Fatal = 0x20,
+		Fatal = 6,
 
 		/// <summary>All.</summary>
-		All = Debug | Trace | Info | Warn | Error | Fatal
+		All = 7
 	}
 }

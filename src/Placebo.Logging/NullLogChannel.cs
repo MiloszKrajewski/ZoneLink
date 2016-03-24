@@ -8,7 +8,17 @@ namespace Placebo.Logging
 	{
 		#region static fields
 
+		/// <summary>The singleton.</summary>
 		public static readonly NullLogChannel Instance = new NullLogChannel();
+
+		#endregion
+
+		#region constructor
+
+		/// <summary>
+		/// Prevents a default instance of the <see cref="NullLogChannel"/> class from being created.
+		/// </summary>
+		private NullLogChannel() { }
 
 		#endregion
 
@@ -26,7 +36,7 @@ namespace Placebo.Logging
 		/// <param name="severity">The severity.</param>
 		/// <param name="exception">The exception (or <c>null</c>).</param>
 		/// <param name="messageFactory">A function which will generate message if it is going to be logged.</param>
-		public void LogMessage(Severity severity, Exception exception, Func<string> messageFactory)
+		public void LogMessage(Severity severity, Func<string> messageFactory)
 		{
 			// do nothing
 		}
