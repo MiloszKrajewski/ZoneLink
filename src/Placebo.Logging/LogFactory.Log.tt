@@ -5,16 +5,18 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Placebo.Logging
 {
     public static partial class LogFactory
     {
-
-<#    foreach (var level in new[] { "Debug", "Trace", "Info", "Warn", "Error", "Fatal" }) { #>
+<#
+    var iteration = 0;
+    var levels = new[] { "Debug", "Trace", "Info", "Warn", "Error", "Fatal" };
+    foreach (var level in levels) 
+    {
+        if (iteration++ > 0) WriteLine(string.Empty);
+#>
         /// <summary>Logs a <#= level #> message.</summary>
         /// <param name="logChannel">The log channel.</param>
         /// <param name="messageFactory">The message factory.</param>
@@ -51,7 +53,8 @@ namespace Placebo.Logging
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
             logChannel.LogMessage(Severity.<#= level #>, messageFormat.DeferToString(arguments));
         }
-
-<#    } #>
+<# 
+    }
+#>
     }
 }

@@ -7,7 +7,6 @@ namespace Placebo.Logging
 	{
 		/// <summary>None.</summary>
 		None = 0,
-
 		/// <summary>Debug.</summary>
 		Debug = 1,
 		/// <summary>Debug.</summary>
@@ -20,8 +19,5 @@ namespace Placebo.Logging
 		Error = 5,
 		/// <summary>Fatal.</summary>
 		Fatal = 6,
-
-		/// <summary>All.</summary>
-		All = 7
 	}
 }

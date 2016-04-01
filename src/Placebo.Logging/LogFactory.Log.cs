@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Placebo.Logging
 {
     public static partial class LogFactory
     {
-
         /// <summary>Logs a Debug message.</summary>
         /// <param name="logChannel">The log channel.</param>
         /// <param name="messageFactory">The message factory.</param>
@@ -229,6 +225,5 @@ namespace Placebo.Logging
             if (logChannel == null || !logChannel.IsEnabled(Severity.Fatal)) return;
             logChannel.LogMessage(Severity.Fatal, messageFormat.DeferToString(arguments));
         }
-
     }
 }
