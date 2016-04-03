@@ -1,0 +1,60 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+
+namespace Placebo.Logging
+{
+    public static partial class LogFactory
+    {
+<#
+    var iteration = 0;
+    var levels = new[] { "Debug", "Trace", "Info", "Warn", "Error", "Fatal" };
+    foreach (var level in levels) 
+    {
+        if (iteration++ > 0) WriteLine(string.Empty);
+#>
+        /// <summary>Logs a <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="messageFactory">The message factory.</param>
+        public static void <#= level #>(this ILogChannel logChannel, Func<string> messageFactory)
+        {
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, messageFactory.DeferToString());
+        }
+
+        /// <summary>Logs a exception as <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="exception">The exception.</param>
+        public static void <#= level #>(this ILogChannel logChannel, Exception exception)
+        {
+            if (logChannel == null || exception == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, exception);
+        }
+
+        /// <summary>Logs a <#= level #> message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="message">The message.</param>
+        public static void <#= level #>(this ILogChannel logChannel, string message)
+        {
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, message.DeferToString());
+        }
+
+        /// <summary>Debugs the specified message.</summary>
+        /// <param name="logChannel">The log channel.</param>
+        /// <param name="messageFormat">The message format.</param>
+        /// <param name="arguments">The arguments.</param>
+        public static void <#= level #>(this ILogChannel logChannel, string messageFormat, params object[] arguments)
+        {
+            if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;
+            logChannel.LogMessage(Severity.<#= level #>, messageFormat.DeferToString(arguments));
+        }
+<# 
+    }
+#>
+    }
+}
