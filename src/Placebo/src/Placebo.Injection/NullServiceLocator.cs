@@ -38,6 +38,24 @@ namespace Placebo.Injection
 			return Array.CreateInstance(serviceType, 0);
 		}
 
+		/// <summary>Registers the factory method.</summary>
+		/// <param name="serviceType">Type of the service.</param>
+		/// <param name="name">The name (optional).</param>
+		/// <param name="factory">The factory method.</param>
+		/// <returns>This resolver.</returns>
+		/// <exception cref="System.InvalidOperationException">Registering resolvers is not allowed</exception>
+		public IServiceLocator Register(Type serviceType, string name, Func<IServiceLocator, object> factory)
+		{
+			throw new InvalidOperationException("Registering resolvers is not allowed");
+		}
+
+		/// <summary>Spawns child resolver.</summary>
+		/// <returns>Child resolver.</returns>
+		public IServiceLocator Spawn()
+		{
+			return this;
+		}
+
 		#endregion
 	}
 }
