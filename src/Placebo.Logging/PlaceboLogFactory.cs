@@ -8,9 +8,9 @@ namespace Placebo.Logging
 {
 	public class PlaceboLogFactory: ILogFactory
 	{
-		private object _lock = new object();
-		private TextWriter _standardStream;
-		private TextWriter _errorStream;
+		private readonly object _lockObject = new object();
+		private readonly TextWriter _standardStream;
+		private readonly TextWriter _errorStream;
 
 		public PlaceboLogFactory(TextWriter standardStream, TextWriter errorStream)
 		{
@@ -25,7 +25,7 @@ namespace Placebo.Logging
 
 		public ILogChannel Channel(string channelName)
 		{
-			return new PlaceboLogChannel(_lock, _standardStream, _errorStream);
+			return new PlaceboLogChannel(_lockObject, _standardStream, _errorStream);
 		}
 	}
 }

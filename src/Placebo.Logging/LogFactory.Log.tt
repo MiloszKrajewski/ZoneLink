@@ -37,7 +37,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a <#= level #> message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void <#= level #>(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.<#= level #>)) return;

@@ -57,7 +57,5 @@ namespace Placebo
 			foreach (var item in collection)
 				action(item);
 		}
-
-
 	}
 }

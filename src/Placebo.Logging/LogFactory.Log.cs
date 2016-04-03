@@ -24,7 +24,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Debug message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Debug(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Debug)) return;
@@ -61,7 +61,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Trace message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Trace(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Trace)) return;
@@ -98,7 +98,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Info message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Info(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Info)) return;
@@ -135,7 +135,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Warn message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Warn(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Warn)) return;
@@ -172,7 +172,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Error message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Error(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Error)) return;
@@ -209,7 +209,7 @@ namespace Placebo.Logging
 
         /// <summary>Logs a Fatal message.</summary>
         /// <param name="logChannel">The log channel.</param>
-        /// <param name="messageFactory">The message.</param>
+        /// <param name="message">The message.</param>
         public static void Fatal(this ILogChannel logChannel, string message)
         {
             if (logChannel == null || !logChannel.IsEnabled(Severity.Fatal)) return;

@@ -5,9 +5,9 @@ namespace Placebo.Logging
 {
 	public class PlaceboLogChannel: ILogChannel
 	{
-		private object _lockObject;
-		private TextWriter _standardStream;
-		private TextWriter _errorStream;
+		private readonly object _lockObject;
+		private readonly TextWriter _standardStream;
+		private readonly TextWriter _errorStream;
 
 		public PlaceboLogChannel(
 			object lockObject,
